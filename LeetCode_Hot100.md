@@ -16,7 +16,7 @@
 
 [经典题解](https://leetcode.cn/problems/container-with-most-water/solutions/94102/on-shuang-zhi-zhen-jie-fa-li-jie-zheng-que-xing-tu/?envType=study-plan-v2&envId=top-100-liked)
 
-**思路：**双指针
+**思路：** 双指针
 
 **核心：** **缩减搜索空间**。
 假设左边边长最短。右边向左移动时，根据右边边长会有如下两种情况：
@@ -44,7 +44,7 @@
 2. 双指针：大循环i遍历，双指针依次遍历求和，判断是否满足条件，注意双指针也要轮循去重
 3. 满足条件时，每次构造新的vector，再通过push_back输出
 
-**优化：**使用emplace_back + 初始化列表，直接构造一个对象，减少一次移动的操作；且初始化列表可以自动退到
+**优化：** 使用emplace_back + 初始化列表，直接构造一个对象，减少一次移动的操作；且初始化列表可以自动推导。
 
 ```cpp
 ans.emplace_back(initializer_list<int>{val1, val2, val3})
