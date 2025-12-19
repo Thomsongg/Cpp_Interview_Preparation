@@ -50,7 +50,7 @@
 ans.emplace_back(initializer_list<int>{val1, val2, val3})
 ```
 
-## 3 滑动窗口
+## 3 滑动窗口 & 单调栈
 
 样板：由双指针组成一个队列，右指针遍历时，根据特定规则将队列进行放缩。
 
@@ -171,6 +171,64 @@ vector<int> findAnagrams(string s, string p) {
          {
              ans.push_back(left);
          }
+    }
+
+    return ans;
+}
+```
+
+### 3.3 [滑动窗口最大值 (单调栈/单调队列)](https://leetcode.cn/problems/sliding-window-maximum/description/?envType=study-plan-v2&envId=top-100-liked)
+
+本题看似为滑动窗口，但实则需要构造**单调栈(单调队列)**。
+
+[详细题解](https://leetcode.cn/problems/sliding-window-maximum/solutions/2361228/239-hua-dong-chuang-kou-zui-da-zhi-dan-d-u6h0/?envType=study-plan-v2&envId=top-100-liked)
+
+**思路：** 本题的核心在于，有一个数据结构，能时刻更新每次窗口的最大值，并方便使用（即这个值始终在开头或末尾）
+
+对于本题，我们就要构造一个单调队列，让最大值每次都能出现在队首，且满足：
+
+1. 队列跟随窗口移动时更新，并维护当前窗口的最大值 -> 队首元素等于待删除左侧窗口值nums[i-1]时，将队首出队
+2. 新元素nums[j+1]入队时，为了保持单调性，删除所有值小于它的元素
+3. 每次窗口移动后，根据单调队列，输出当前最大值
+
+**代码实现如下：**
+
+```cpp
+vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+    // 边界条件
+    if (k == 0 || nums.size() == 0)
+    {
+        return {};
+    }
+
+    // 单调队列 deque
+    deque<int> dq;
+
+    // 提前初始化ans，可得到更好的性能
+    vector<int> ans(nums.size() - k + 1);
+
+    // 滑动窗口(i,j)起始位置: (1-k, 0)
+    for (i = 1 - k, j = 0; j < nums.size(); i++, j++)
+    {
+        // 删除需要移除的队首元素(窗口左侧元素)
+        if (i > 0 && dq.front() == nums[i - 1])
+        {
+            dq.pop_front();
+        }
+
+        // 删除比新元素nums[j]小的元素，注意从后往前推导
+        while (!dq.empty() && dq.back() < nums[j])
+        {
+            dq.pop_back();
+        }
+
+        dq.push_back(nums[j]);
+
+        // 输出当前最大值
+        if (i >= 0)
+        {
+            ans[i] = dq.front();
+        }
     }
 
     return ans;
