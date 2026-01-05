@@ -1,4 +1,4 @@
-// C++ 线程的使用
+// 练习1：线程安全的计数器
 #include <thread>
 #include <mutex>
 #include <atomic>
