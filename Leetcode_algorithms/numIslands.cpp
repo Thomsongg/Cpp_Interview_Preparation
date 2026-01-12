@@ -59,7 +59,7 @@ int main()
         {'0','0','0','1','1'}
     };
 
-    sol.numIsIlands(test_instance);
+    sol.numIslands(test_instance);
 
     std::cout << "Result: " << sol.ans;
 }
